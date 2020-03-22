@@ -1,6 +1,8 @@
 # TODO: especificar cada except.
 # TODO: analisar e modular rotinas repetidas.
 # TODO: implementar logging.
+# TODO: estatístisticas de uso de cada componente.
+# TODO: função de log genérica. (permitir a utilização de a = b if b is not None else c)
 
 import telegram.ext
 import logging
@@ -8,25 +10,26 @@ import whois
 import datetime
 import socket
 import requests
-
-# -------------------------- FOR SELENIUM ----------------------------------- #
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.common.keys import Keys
 
+logging.basicConfig(format='%(asctime)s | %(name)s | %(levelname)s | %(message)s', level=logging.INFO)
+logging.info('Starting the process...')
+
+# -------------------------- FOR SELENIUM ----------------------------------- #
 options = Options()
 options.headless = True
 browser = webdriver.Firefox(options=options)
-
 # --------------------------------------------------------------------------- #
+
+logging.info('Process started!')
 
 token = '1104333045:AAFYKy78IaEMmTr3jMhTOfsFIde-U_BRJ_E'
 
 bot = telegram.Bot(token=token)
 updater = telegram.ext.Updater(token=token, use_context=True)
 dispatcher = updater.dispatcher
-
-logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 
 help_msg = """
 Hello, I am a bot that travels around the cyberworld and give you some Intelligence about something in the Internet!
@@ -42,12 +45,14 @@ List of commands:
 
 def start(update, context):
     context.bot.sendMessage(chat_id=update.effective_chat.id, text=help_msg)
+    logging.info('user: {} id: {} link: {} - has started the bot.'.format(
+        update.effective_user.name,
+        update.effective_user.id,
+        update.effective_user.link
+    ))
 
 def help(update, context):
     context.bot.sendMessage(chat_id=update.effective_chat.id, text=help_msg)
-
-def check(update, context):
-    print(update)
 
 def c_whois(update, context):
     try:
@@ -153,19 +158,24 @@ def c_check_email(update, context):
                                 text='An unknown error happened.',
                                 parse_mode=telegram.ParseMode.MARKDOWN)
 
-
 def unknown(update, context):
     context.bot.send_message(chat_id=update.effective_chat.id, text="Sorry, I didn't understand that command.")
+    logging.info('user: {} id: {} link: {} - has typed an unknown command to bot: {}'.format(
+        update.effective_user.name,
+        update.effective_user.id,
+        update.effective_user.link,
+        update.message.text
+    ))
+
+# --------------------------------- HANDLES E DISPATCHERS ---------------------------------------------- #
 
 start_handle = telegram.ext.CommandHandler('start', start)
-check_handle = telegram.ext.CommandHandler('check', check)
 help_handle = telegram.ext.CommandHandler('help', help)
 whois_handle = telegram.ext.CommandHandler('whois', c_whois)
 check_email_handle = telegram.ext.CommandHandler('check_email', c_check_email)
 unknown_handler = telegram.ext.MessageHandler(telegram.ext.Filters.command, unknown)
 
 dispatcher.add_handler(start_handle)
-dispatcher.add_handler(check_handle)
 dispatcher.add_handler(help_handle)
 dispatcher.add_handler(whois_handle)
 dispatcher.add_handler(check_email_handle)
