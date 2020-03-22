@@ -43,16 +43,32 @@ List of commands:
 ====================================
 """
 
+
+def log_this(log_func, msg, attrs={}):
+    if type(attrs) is not dict:
+        attrs = dict()
+    log_msg = msg + ' | '
+    info_dict = dict()
+
+    for attr in attrs.keys():
+        info_dict[attr] = str(getattr(attrs[attr], attr, None))
+
+    log_msg += str(info_dict) + '\n'
+    log_func(log_msg)
+
+
 def start(update, context):
     context.bot.sendMessage(chat_id=update.effective_chat.id, text=help_msg)
-    logging.info('user: {} id: {} link: {} - has started the bot.'.format(
-        update.effective_user.name,
-        update.effective_user.id,
-        update.effective_user.link
-    ))
+    log_this(logging.info, 'New user!',
+             {'name': update.effective_user,
+              'id': update.effective_user,
+              'link': update.effective_user}
+             )
+
 
 def help(update, context):
     context.bot.sendMessage(chat_id=update.effective_chat.id, text=help_msg)
+
 
 def c_whois(update, context):
     try:
@@ -75,6 +91,8 @@ def c_whois(update, context):
         context.bot.sendMessage(chat_id=update.effective_chat.id,
                                 text='Error: a timeout has occurred')
         return
+    except Exception as e:
+        logging.error('An error has occurred: {}'.format(e))
 
     reply = ''
     for k in info_dict.keys():
@@ -101,6 +119,7 @@ def c_whois(update, context):
         return
 
     context.bot.sendMessage(chat_id=update.effective_chat.id, text=reply, parse_mode=telegram.ParseMode.HTML)
+
 
 def c_check_email(update, context):
     try:
@@ -151,21 +170,24 @@ def c_check_email(update, context):
                                 parse_mode=telegram.ParseMode.MARKDOWN)
     elif 'Connecting to' in response:
         context.bot.sendMessage(chat_id=update.effective_chat.id,
-                                text='Connection to domain *{}* failed. Possibly the e-mail is not valid.'.format(email.split('@')[1]),
+                                text='Connection to domain *{}* failed. Possibly the e-mail is not valid.'.format(
+                                    email.split('@')[1]),
                                 parse_mode=telegram.ParseMode.MARKDOWN)
     else:
         context.bot.sendMessage(chat_id=update.effective_chat.id,
                                 text='An unknown error happened.',
                                 parse_mode=telegram.ParseMode.MARKDOWN)
 
+
 def unknown(update, context):
     context.bot.send_message(chat_id=update.effective_chat.id, text="Sorry, I didn't understand that command.")
     logging.info('user: {} id: {} link: {} - has typed an unknown command to bot: {}'.format(
-        update.effective_user.name,
-        update.effective_user.id,
-        update.effective_user.link,
-        update.message.text
+        getattr(update.effective_user, 'name', None),
+        getattr(update.effective_user, 'id', None),
+        getattr(update.effective_user, 'link', None),
+        getattr(update.message.text, 'text', None)
     ))
+
 
 # --------------------------------- HANDLES E DISPATCHERS ---------------------------------------------- #
 
