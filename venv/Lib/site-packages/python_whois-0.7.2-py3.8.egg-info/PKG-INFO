@@ -1,0 +1,20 @@
+Metadata-Version: 2.1
+Name: python-whois
+Version: 0.7.2
+Summary: Whois querying and parsing of domain registration information.
+Home-page: https://github.com/richardpenman/pywhois
+Author: Richard Penman
+Author-email: richard.penman@gmail.com
+License: MIT
+Description: UNKNOWN
+Keywords: whois,python
+Platform: UNKNOWN
+Classifier: Environment :: Web Environment
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Topic :: Internet :: WWW/HTTP
+Classifier: Programming Language :: Python :: 2
+Classifier: Programming Language :: Python :: 3
+Provides-Extra: better date conversion
