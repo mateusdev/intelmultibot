@@ -1,19 +1,18 @@
 # TODO: especificar cada except.
 # TODO: analisar e modular rotinas repetidas.
-# TODO: implementar logging.
 # TODO: estatístisticas de uso de cada componente.
+# TODO: feedback para caso de erros.
 
 import telegram.ext
 import logging
 import whois
 import datetime
 import socket
-import requests
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.common.keys import Keys
-
-logging.basicConfig(filename='log_intelmultibot.log', filemode='a', format='%(asctime)s | %(name)s | %(levelname)s | %(message)s', level=logging.INFO)
+#filename='log_intelmultibot.log', filemode='a'
+logging.basicConfig(format='%(asctime)s | %(name)s | %(levelname)s | %(message)s', level=logging.INFO)
 logging.info('Starting the process...')
 
 # -------------------------- FOR SELENIUM ----------------------------------- #
@@ -43,7 +42,7 @@ List of commands:
 """
 
 # BUG: não consegue manipular dois objetos que tenham uma mesma propriedade em comum
-def log_this(log_func, msg, attrs={}):
+def log_this(log_func, msg, attrs={}, callback=None):
     if type(attrs) is not dict:
         attrs = dict()
     log_msg = msg + ' | '
@@ -87,6 +86,7 @@ def c_whois(update, context):
         context.bot.sendMessage(chat_id=update.effective_chat.id,
                                 text='You must provide a domain.')
         return
+
     context.bot.sendMessage(chat_id=update.effective_chat.id, text='Wait a few seconds...')
 
     try:
@@ -101,10 +101,10 @@ def c_whois(update, context):
         context.bot.sendMessage(chat_id=update.effective_chat.id,
                                 text='Error: a timeout has occurred')
         return
+    # BUG: 8.8.8.8 (DNS) dá erro. Favor logar esse erro.
     except Exception as e:
-        log_this(logging.error, 'Exception not handled occurred in c_whois', {
-                     update.effective_user: ['name', 'id', 'link']
-                 })
+        unknown_error('c_whois', e, update, context)
+        return
 
     reply = ''
     for k in info_dict.keys():
@@ -194,6 +194,14 @@ def c_check_email(update, context):
         context.bot.sendMessage(chat_id=update.effective_chat.id,
                                 text='An unknown error happened.',
                                 parse_mode=telegram.ParseMode.MARKDOWN)
+
+
+def unknown_error(func_name, error, update, context):
+    log_this(logging.error, 'Exception not handled occurred in {}: {}'.format(func_name, error), {
+        update.effective_user: ['name', 'id', 'link'],
+        update.message: ['text']
+    })
+    context.bot.sendMessage(chat_id=update.effective_chat.id, text='An unexpected error occurred.')
 
 
 def unknown(update, context):

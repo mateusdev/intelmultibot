@@ -124,7 +124,14 @@
       <option name="project" value="LOCAL" />
       <updated>1584912899633</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="melhora da função de log">
+      <created>1584921928156</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1584921928156</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -143,41 +150,42 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="atualização para usar o pycharm" />
     <MESSAGE value="construção da função de log" />
-    <option name="LAST_COMMIT_MESSAGE" value="construção da função de log" />
+    <MESSAGE value="melhora da função de log" />
+    <option name="LAST_COMMIT_MESSAGE" value="melhora da função de log" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="337" y="0" key="CommitChangelistDialog2" timestamp="1584912898907">
+    <state x="337" y="0" key="CommitChangelistDialog2" timestamp="1584968493751">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="337" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1584912898907" />
-    <state width="1345" height="190" key="GridCell.Tab.0.bottom" timestamp="1584921874754">
+    <state x="337" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1584968493751" />
+    <state width="1345" height="190" key="GridCell.Tab.0.bottom" timestamp="1584968299670">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1345" height="190" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1584921874754" />
-    <state width="1345" height="190" key="GridCell.Tab.0.center" timestamp="1584921874754">
+    <state width="1345" height="190" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1584968299670" />
+    <state width="1345" height="190" key="GridCell.Tab.0.center" timestamp="1584968299670">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1345" height="190" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1584921874754" />
-    <state width="1345" height="190" key="GridCell.Tab.0.left" timestamp="1584921874754">
+    <state width="1345" height="190" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1584968299670" />
+    <state width="1345" height="190" key="GridCell.Tab.0.left" timestamp="1584968299669">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1345" height="190" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1584921874754" />
-    <state width="1345" height="190" key="GridCell.Tab.0.right" timestamp="1584921874754">
+    <state width="1345" height="190" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1584968299669" />
+    <state width="1345" height="190" key="GridCell.Tab.0.right" timestamp="1584968299670">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1345" height="190" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1584921874754" />
+    <state width="1345" height="190" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1584968299670" />
     <state x="128" y="15" key="SettingsEditor" timestamp="1584912988515">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="128" y="15" key="SettingsEditor/0.0.1366.728@0.0.1366.728" timestamp="1584912988515" />
-    <state x="275" y="98" key="Vcs.Push.Dialog.v2" timestamp="1584921915535">
+    <state x="275" y="98" key="Vcs.Push.Dialog.v2" timestamp="1584921932700">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="275" y="98" key="Vcs.Push.Dialog.v2/0.0.1366.728@0.0.1366.728" timestamp="1584921915535" />
-    <state x="379" y="189" key="com.intellij.ide.util.TipDialog" timestamp="1584899738155">
+    <state x="275" y="98" key="Vcs.Push.Dialog.v2/0.0.1366.728@0.0.1366.728" timestamp="1584921932700" />
+    <state x="379" y="189" key="com.intellij.ide.util.TipDialog" timestamp="1584925152505">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="379" y="189" key="com.intellij.ide.util.TipDialog/0.0.1366.728@0.0.1366.728" timestamp="1584899738155" />
+    <state x="379" y="189" key="com.intellij.ide.util.TipDialog/0.0.1366.728@0.0.1366.728" timestamp="1584925152505" />
     <state x="342" y="0" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1584714889723">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
