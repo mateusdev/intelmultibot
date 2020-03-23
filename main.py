@@ -2,7 +2,6 @@
 # TODO: analisar e modular rotinas repetidas.
 # TODO: implementar logging.
 # TODO: estatístisticas de uso de cada componente.
-# TODO: função de log genérica. (permitir a utilização de a = b if b is not None else c)
 
 import telegram.ext
 import logging
@@ -14,7 +13,7 @@ from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.common.keys import Keys
 
-logging.basicConfig(format='%(asctime)s | %(name)s | %(levelname)s | %(message)s', level=logging.INFO)
+logging.basicConfig(filename='log_intelmultibot.log', filemode='a', format='%(asctime)s | %(name)s | %(levelname)s | %(message)s', level=logging.INFO)
 logging.info('Starting the process...')
 
 # -------------------------- FOR SELENIUM ----------------------------------- #
@@ -43,15 +42,22 @@ List of commands:
 ====================================
 """
 
-
+# BUG: não consegue manipular dois objetos que tenham uma mesma propriedade em comum
 def log_this(log_func, msg, attrs={}):
     if type(attrs) is not dict:
         attrs = dict()
     log_msg = msg + ' | '
     info_dict = dict()
 
-    for attr in attrs.keys():
-        info_dict[attr] = str(getattr(attrs[attr], attr, None))
+    for obj in attrs.keys():
+        temp_dict = dict()
+        if type(attrs[obj]) is list:
+            for attr in attrs[obj]:
+                temp_dict[attr] = getattr(obj, attr, None)
+        else:
+            temp_dict[attrs[obj]] = getattr(obj, attrs[obj], None)
+
+        info_dict[type(obj).__name__] = temp_dict
 
     log_msg += str(info_dict) + '\n'
     log_func(log_msg)
@@ -59,11 +65,10 @@ def log_this(log_func, msg, attrs={}):
 
 def start(update, context):
     context.bot.sendMessage(chat_id=update.effective_chat.id, text=help_msg)
-    log_this(logging.info, 'New user!',
-             {'name': update.effective_user,
-              'id': update.effective_user,
-              'link': update.effective_user}
-             )
+    log_this(logging.info, 'New user',
+             {
+                 update.effective_user: ['name', 'id', 'link']
+             })
 
 
 def help(update, context):
@@ -71,6 +76,11 @@ def help(update, context):
 
 
 def c_whois(update, context):
+    log_this(logging.info, 'Whois command triggered',
+             {
+                 update.effective_user: ['name', 'id', 'link'],
+                 update.message: ['text']
+             })
     try:
         domain = context.args[0]
     except:
@@ -92,7 +102,9 @@ def c_whois(update, context):
                                 text='Error: a timeout has occurred')
         return
     except Exception as e:
-        logging.error('An error has occurred: {}'.format(e))
+        log_this(logging.error, 'Exception not handled occurred in c_whois', {
+                     update.effective_user: ['name', 'id', 'link']
+                 })
 
     reply = ''
     for k in info_dict.keys():
@@ -122,6 +134,11 @@ def c_whois(update, context):
 
 
 def c_check_email(update, context):
+    log_this(logging.info, 'check_email command triggered',
+             {
+                 update.effective_user: ['name', 'id', 'link'],
+                 update.message: ['text']
+             })
     try:
         email = context.args[0]
     except:
@@ -181,12 +198,10 @@ def c_check_email(update, context):
 
 def unknown(update, context):
     context.bot.send_message(chat_id=update.effective_chat.id, text="Sorry, I didn't understand that command.")
-    logging.info('user: {} id: {} link: {} - has typed an unknown command to bot: {}'.format(
-        getattr(update.effective_user, 'name', None),
-        getattr(update.effective_user, 'id', None),
-        getattr(update.effective_user, 'link', None),
-        getattr(update.message.text, 'text', None)
-    ))
+    log_this(logging.warning, 'An unknown command has been passed to bot',{
+        update.effective_user: ['name', 'id', 'link'],
+        update.message: ['text']
+    })
 
 
 # --------------------------------- HANDLES E DISPATCHERS ---------------------------------------------- #
