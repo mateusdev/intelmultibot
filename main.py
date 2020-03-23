@@ -11,8 +11,7 @@ import socket
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.common.keys import Keys
-#filename='log_intelmultibot.log', filemode='a'
-logging.basicConfig(format='%(asctime)s | %(name)s | %(levelname)s | %(message)s', level=logging.INFO)
+logging.basicConfig(filename='log_intelmultibot.log', filemode='a', format='%(asctime)s | %(name)s | %(levelname)s | %(message)s', level=logging.INFO)
 logging.info('Starting the process...')
 
 # -------------------------- FOR SELENIUM ----------------------------------- #
