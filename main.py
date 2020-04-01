@@ -2,6 +2,15 @@
 # TODO: analisar e modular rotinas repetidas.
 # TODO: estatístisticas de uso de cada componente.
 # TODO: feedback para caso de erros.
+# TODO: melhoria e otimização de funções
+# TODO: Implementação do parser de arquivos .eml (e-mail), integrando outras funções de inteligência, como blacklist
+# TODO: Implementação da pesquisa GEO-IP
+# TODO: Implementação de reconhecimento DNS (como o comando host)
+# TODO: Implementação da checagem de blacklist em IPs/Domains
+# TODO: (Possível) Implementação da checagem de artefatos via VT
+# TODO: Implementação da
+# TODO: inclusão da googlesearch para pesquisa em redes sociais, pastes e leaks
+# TODO: pesquisa de links da deepweb
 
 import telegram.ext
 import logging
@@ -11,7 +20,9 @@ import socket
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.common.keys import Keys
-logging.basicConfig(filename='log_intelmultibot.log', filemode='a', format='%(asctime)s | %(name)s | %(levelname)s | %(message)s', level=logging.INFO)
+
+#logging.basicConfig(filename='log_intelmultibot.log', filemode='a', format='%(asctime)s | %(name)s | %(levelname)s | %(message)s', level=logging.INFO)
+logging.basicConfig(format='%(asctime)s | %(name)s | %(levelname)s | %(message)s', level=logging.INFO)
 logging.info('Starting the process...')
 
 # -------------------------- FOR SELENIUM ----------------------------------- #
@@ -162,6 +173,8 @@ def c_check_email(update, context):
     text_field.send_keys(Keys.RETURN)
 
     response = None
+
+    #TODO: melhorar a rotina abaixo, de aguardar o carregamento total da página
     while not response:
         try:
             response = browser.find_element_by_xpath("//tbody/tr[2]/td/div[last()]").text

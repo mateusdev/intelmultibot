@@ -41,6 +41,7 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Lenovo\Documents\GitHub\intelmultibot" />
       <recent name="C:\Users\Lenovo\PycharmProjects\intelmultibot" />
     </key>
   </component>
@@ -131,7 +132,21 @@
       <option name="project" value="LOCAL" />
       <updated>1584921928156</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="alterações na lib de whois">
+      <created>1584968528100</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1584968528100</updated>
+    </task>
+    <task id="LOCAL-00004" summary="alterações leves">
+      <created>1584968638488</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1584968638488</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -151,48 +166,54 @@
     <MESSAGE value="atualização para usar o pycharm" />
     <MESSAGE value="construção da função de log" />
     <MESSAGE value="melhora da função de log" />
-    <option name="LAST_COMMIT_MESSAGE" value="melhora da função de log" />
+    <MESSAGE value="alterações na lib de whois" />
+    <MESSAGE value="alterações leves" />
+    <option name="LAST_COMMIT_MESSAGE" value="alterações leves" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="337" y="0" key="CommitChangelistDialog2" timestamp="1584968493751">
+    <state x="337" y="0" key="CommitChangelistDialog2" timestamp="1584968637685">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="337" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1584968493751" />
-    <state width="1345" height="190" key="GridCell.Tab.0.bottom" timestamp="1584968299670">
+    <state x="337" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1584968637685" />
+    <state x="463" y="120" key="FileChooserDialogImpl" timestamp="1585002502716">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1345" height="190" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1584968299670" />
-    <state width="1345" height="190" key="GridCell.Tab.0.center" timestamp="1584968299670">
+    <state x="463" y="120" key="FileChooserDialogImpl/0.0.1366.728@0.0.1366.728" timestamp="1585002502716" />
+    <state width="1345" height="190" key="GridCell.Tab.0.bottom" timestamp="1584969774885">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1345" height="190" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1584968299670" />
-    <state width="1345" height="190" key="GridCell.Tab.0.left" timestamp="1584968299669">
+    <state width="1345" height="190" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1584969774885" />
+    <state width="1345" height="190" key="GridCell.Tab.0.center" timestamp="1584969774885">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1345" height="190" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1584968299669" />
-    <state width="1345" height="190" key="GridCell.Tab.0.right" timestamp="1584968299670">
+    <state width="1345" height="190" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1584969774885" />
+    <state width="1345" height="190" key="GridCell.Tab.0.left" timestamp="1584969774884">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1345" height="190" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1584968299670" />
+    <state width="1345" height="190" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1584969774884" />
+    <state width="1345" height="190" key="GridCell.Tab.0.right" timestamp="1584969774885">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="1345" height="190" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1584969774885" />
     <state x="128" y="15" key="SettingsEditor" timestamp="1584912988515">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="128" y="15" key="SettingsEditor/0.0.1366.728@0.0.1366.728" timestamp="1584912988515" />
-    <state x="275" y="98" key="Vcs.Push.Dialog.v2" timestamp="1584921932700">
+    <state x="275" y="98" key="Vcs.Push.Dialog.v2" timestamp="1584968646591">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="275" y="98" key="Vcs.Push.Dialog.v2/0.0.1366.728@0.0.1366.728" timestamp="1584921932700" />
-    <state x="379" y="189" key="com.intellij.ide.util.TipDialog" timestamp="1584925152505">
+    <state x="275" y="98" key="Vcs.Push.Dialog.v2/0.0.1366.728@0.0.1366.728" timestamp="1584968646591" />
+    <state x="379" y="189" key="com.intellij.ide.util.TipDialog" timestamp="1585745371225">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="379" y="189" key="com.intellij.ide.util.TipDialog/0.0.1366.728@0.0.1366.728" timestamp="1584925152505" />
+    <state x="379" y="189" key="com.intellij.ide.util.TipDialog/0.0.1366.728@0.0.1366.728" timestamp="1585745371225" />
     <state x="342" y="0" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1584714889723">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="342" y="0" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1366.728@0.0.1366.728" timestamp="1584714889723" />
-    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup" timestamp="1584896708231">
+    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup" timestamp="1585749479219">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup/0.0.1366.728@0.0.1366.728" timestamp="1584896708231" />
+    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup/0.0.1366.728@0.0.1366.728" timestamp="1585749479219" />
   </component>
 </project>
