@@ -1,16 +1,20 @@
 # TODO: especificar cada except.
+# TODO: especificar cada import explicitamente
 # TODO: analisar e modular rotinas repetidas.
 # TODO: estatístisticas de uso de cada componente.
 # TODO: feedback para caso de erros.
 # TODO: melhoria e otimização de funções
+
 # TODO: Implementação do parser de arquivos .eml (e-mail), integrando outras funções de inteligência, como blacklist
-# TODO: Implementação da pesquisa GEO-IP
 # TODO: Implementação do envio de gráficos do dnsdumpster
 # TODO: Implementação da checagem de blacklist em IPs/Domains
 # TODO: (Possível) Implementação da checagem de artefatos via VT
-# TODO: Implementação da
+# TODO: Implementação da função de baixar samples via bazaar/malshare (NECESSÁRIO API!!!)
 # TODO: inclusão da googlesearch para pesquisa em redes sociais, pastes e leaks
 # TODO: pesquisa de links da deepweb
+
+# TODO: Melhorar saída do GEO-IP
+# TODO: incluir cpf, subdomain e geoip nas opções de menu para o usuário
 
 import telegram.ext
 import logging
@@ -19,8 +23,10 @@ import datetime
 import socket
 import cpf
 import os
-from dnsdumpster.DNSDumpsterAPI import DNSDumpsterAPI
 import json
+import ipaddress
+from dnsdumpster.DNSDumpsterAPI import DNSDumpsterAPI
+from geolite2 import geolite2
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.common.keys import Keys
@@ -266,6 +272,34 @@ def c_subdomains(update, context):
     os.remove(f'results_{domain}_{update.effective_chat.id}.txt')
 
 
+def c_geoip(update, context):
+    log_this(logging.info, 'geoip command triggered',
+             {
+                 update.effective_user: ['name', 'id', 'link'],
+                 update.message: ['text']
+             })
+    try:
+        ip_sent = context.args[0]
+        ipaddress.ip_address(ip_sent)
+    except:
+        context.bot.sendMessage(chat_id=update.effective_chat.id,
+                                text='You must provide a IPv4 address.')
+        return
+
+    reader = geolite2.reader()
+    results = reader.get(ip_sent)
+
+    if results is None:
+        context.bot.sendMessage(chat_id=update.effective_chat.id,
+                                text='No GEO-IP information found in my database :(')
+        return
+
+    results_formatted = json.dumps(results, indent=4)
+
+    context.bot.sendMessage(chat_id=update.effective_chat.id,
+                            text=results_formatted)
+
+
 def unknown_error(func_name, error, update, context):
     log_this(logging.error, 'Exception not handled occurred in {}: {}'.format(func_name, error), {
         update.effective_user: ['name', 'id', 'link'],
@@ -290,6 +324,7 @@ whois_handle = telegram.ext.CommandHandler('whois', c_whois)
 check_email_handle = telegram.ext.CommandHandler('check_email', c_check_email)
 check_cpf_handle = telegram.ext.CommandHandler('check_cpf', c_check_cpf)
 check_subdomains = telegram.ext.CommandHandler('subdomains', c_subdomains)
+geoip_handle = telegram.ext.CommandHandler('geoip', c_geoip)
 unknown_handler = telegram.ext.MessageHandler(telegram.ext.Filters.command, unknown)
 
 dispatcher.add_handler(start_handle)
@@ -298,6 +333,7 @@ dispatcher.add_handler(whois_handle)
 dispatcher.add_handler(check_email_handle)
 dispatcher.add_handler(check_cpf_handle)
 dispatcher.add_handler(check_subdomains)
+dispatcher.add_handler(geoip_handle)
 dispatcher.add_handler(unknown_handler)
 
 updater.start_polling()

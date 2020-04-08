@@ -1,0 +1,12 @@
+Metadata-Version: 1.1
+Name: dnsdumpster
+Version: 0.5
+Summary: DNS Dumpster lib
+Home-page: https://github.com/PaulSec/API-dnsdumpster.com
+Author: Paul Sec
+Author-email: paulwebsec@gmail.com
+License: UNKNOWN
+Download-URL: https://github.com/PaulSec/API-dnsdumpster.com/tarball/0.5
+Description: UNKNOWN
+Keywords: dnsdumpster,dns,harvesting
+Platform: UNKNOWN

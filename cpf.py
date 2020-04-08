@@ -54,6 +54,7 @@ def checa_regiao_fiscal(cpf):
 
     return digit, states
 
+
 def checa_cpf(cpf_sent):
     cpf = formata_cpf(cpf_sent)
     if cpf is None:

@@ -2,14 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="81395873-5b9a-4b2d-ad4e-fcc53aef108e" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/cpf.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cpf.py" beforeDir="false" afterPath="$PROJECT_DIR$/cpf.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FavoritesManager">
+    <favorites_list name="intelmultibot" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -38,7 +41,7 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="settings.github" />
+    <property name="settings.editor.selected.configurable" value="terminal" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -154,7 +157,14 @@
       <option name="project" value="LOCAL" />
       <updated>1585750708086</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="implementação do CPF via comandos e dnsdumpster tbm">
+      <created>1586306451866</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1586306451866</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -177,45 +187,46 @@
     <MESSAGE value="alterações na lib de whois" />
     <MESSAGE value="alterações leves" />
     <MESSAGE value="novos todos com ideias commitados" />
-    <option name="LAST_COMMIT_MESSAGE" value="novos todos com ideias commitados" />
+    <MESSAGE value="implementação do CPF via comandos e dnsdumpster tbm" />
+    <option name="LAST_COMMIT_MESSAGE" value="implementação do CPF via comandos e dnsdumpster tbm" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="337" y="0" key="CommitChangelistDialog2" timestamp="1585750707000">
+    <state x="337" y="0" key="CommitChangelistDialog2" timestamp="1586306451015">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="337" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1585750707000" />
-    <state x="463" y="120" key="FileChooserDialogImpl" timestamp="1585002502716">
+    <state x="337" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1586306451015" />
+    <state x="200" y="156" key="FileChooserDialogImpl" timestamp="1586356808275">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="463" y="120" key="FileChooserDialogImpl/0.0.1366.728@0.0.1366.728" timestamp="1585002502716" />
-    <state width="1345" height="190" key="GridCell.Tab.0.bottom" timestamp="1586305855240">
+    <state x="200" y="156" key="FileChooserDialogImpl/0.0.1366.728@0.0.1366.728" timestamp="1586356808275" />
+    <state width="1345" height="190" key="GridCell.Tab.0.bottom" timestamp="1586354416222">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1345" height="190" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1586305855240" />
-    <state width="1345" height="190" key="GridCell.Tab.0.center" timestamp="1586305855240">
+    <state width="1345" height="190" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1586354416222" />
+    <state width="1345" height="190" key="GridCell.Tab.0.center" timestamp="1586354416222">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1345" height="190" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1586305855240" />
-    <state width="1345" height="190" key="GridCell.Tab.0.left" timestamp="1586305855240">
+    <state width="1345" height="190" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1586354416222" />
+    <state width="1345" height="190" key="GridCell.Tab.0.left" timestamp="1586354416222">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1345" height="190" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1586305855240" />
-    <state width="1345" height="190" key="GridCell.Tab.0.right" timestamp="1586305855240">
+    <state width="1345" height="190" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1586354416222" />
+    <state width="1345" height="190" key="GridCell.Tab.0.right" timestamp="1586354416222">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1345" height="190" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1586305855240" />
-    <state x="128" y="15" key="SettingsEditor" timestamp="1584912988515">
+    <state width="1345" height="190" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1586354416222" />
+    <state x="83" y="6" key="SettingsEditor" timestamp="1586356811854">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="128" y="15" key="SettingsEditor/0.0.1366.728@0.0.1366.728" timestamp="1584912988515" />
-    <state x="275" y="98" key="Vcs.Push.Dialog.v2" timestamp="1584968646591">
+    <state x="83" y="6" key="SettingsEditor/0.0.1366.728@0.0.1366.728" timestamp="1586356811854" />
+    <state x="275" y="98" key="Vcs.Push.Dialog.v2" timestamp="1586306461938">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="275" y="98" key="Vcs.Push.Dialog.v2/0.0.1366.728@0.0.1366.728" timestamp="1584968646591" />
-    <state x="379" y="189" key="com.intellij.ide.util.TipDialog" timestamp="1586300035933">
+    <state x="275" y="98" key="Vcs.Push.Dialog.v2/0.0.1366.728@0.0.1366.728" timestamp="1586306461938" />
+    <state x="379" y="189" key="com.intellij.ide.util.TipDialog" timestamp="1586356684187">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="379" y="189" key="com.intellij.ide.util.TipDialog/0.0.1366.728@0.0.1366.728" timestamp="1586300035933" />
+    <state x="379" y="189" key="com.intellij.ide.util.TipDialog/0.0.1366.728@0.0.1366.728" timestamp="1586356684187" />
     <state x="342" y="0" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1585791892025">
       <screen x="0" y="0" width="1366" height="728" />
     </state>

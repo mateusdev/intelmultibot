@@ -1,2 +1,6 @@
 /geckodriver.log
 /log_intelmultibot.log
+/__pycache__
+/.idea
+/.vscode
+/.virtual_env_linux
