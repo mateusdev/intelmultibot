@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="81395873-5b9a-4b2d-ad4e-fcc53aef108e" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/cpf.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
@@ -146,7 +147,14 @@
       <option name="project" value="LOCAL" />
       <updated>1584968638488</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="novos todos com ideias commitados">
+      <created>1585750708086</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1585750708086</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -168,33 +176,34 @@
     <MESSAGE value="melhora da função de log" />
     <MESSAGE value="alterações na lib de whois" />
     <MESSAGE value="alterações leves" />
-    <option name="LAST_COMMIT_MESSAGE" value="alterações leves" />
+    <MESSAGE value="novos todos com ideias commitados" />
+    <option name="LAST_COMMIT_MESSAGE" value="novos todos com ideias commitados" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="337" y="0" key="CommitChangelistDialog2" timestamp="1584968637685">
+    <state x="337" y="0" key="CommitChangelistDialog2" timestamp="1585750707000">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="337" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1584968637685" />
+    <state x="337" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1585750707000" />
     <state x="463" y="120" key="FileChooserDialogImpl" timestamp="1585002502716">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="463" y="120" key="FileChooserDialogImpl/0.0.1366.728@0.0.1366.728" timestamp="1585002502716" />
-    <state width="1345" height="190" key="GridCell.Tab.0.bottom" timestamp="1584969774885">
+    <state width="1345" height="190" key="GridCell.Tab.0.bottom" timestamp="1586305855240">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1345" height="190" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1584969774885" />
-    <state width="1345" height="190" key="GridCell.Tab.0.center" timestamp="1584969774885">
+    <state width="1345" height="190" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1586305855240" />
+    <state width="1345" height="190" key="GridCell.Tab.0.center" timestamp="1586305855240">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1345" height="190" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1584969774885" />
-    <state width="1345" height="190" key="GridCell.Tab.0.left" timestamp="1584969774884">
+    <state width="1345" height="190" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1586305855240" />
+    <state width="1345" height="190" key="GridCell.Tab.0.left" timestamp="1586305855240">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1345" height="190" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1584969774884" />
-    <state width="1345" height="190" key="GridCell.Tab.0.right" timestamp="1584969774885">
+    <state width="1345" height="190" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1586305855240" />
+    <state width="1345" height="190" key="GridCell.Tab.0.right" timestamp="1586305855240">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1345" height="190" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1584969774885" />
+    <state width="1345" height="190" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1586305855240" />
     <state x="128" y="15" key="SettingsEditor" timestamp="1584912988515">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
@@ -203,14 +212,14 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="275" y="98" key="Vcs.Push.Dialog.v2/0.0.1366.728@0.0.1366.728" timestamp="1584968646591" />
-    <state x="379" y="189" key="com.intellij.ide.util.TipDialog" timestamp="1585745371225">
+    <state x="379" y="189" key="com.intellij.ide.util.TipDialog" timestamp="1586300035933">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="379" y="189" key="com.intellij.ide.util.TipDialog/0.0.1366.728@0.0.1366.728" timestamp="1585745371225" />
-    <state x="342" y="0" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1584714889723">
+    <state x="379" y="189" key="com.intellij.ide.util.TipDialog/0.0.1366.728@0.0.1366.728" timestamp="1586300035933" />
+    <state x="342" y="0" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1585791892025">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="342" y="0" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1366.728@0.0.1366.728" timestamp="1584714889723" />
+    <state x="342" y="0" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1366.728@0.0.1366.728" timestamp="1585791892025" />
     <state x="346" y="49" width="672" height="678" key="search.everywhere.popup" timestamp="1585749479219">
       <screen x="0" y="0" width="1366" height="728" />
     </state>

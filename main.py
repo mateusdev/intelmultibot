@@ -5,7 +5,7 @@
 # TODO: melhoria e otimização de funções
 # TODO: Implementação do parser de arquivos .eml (e-mail), integrando outras funções de inteligência, como blacklist
 # TODO: Implementação da pesquisa GEO-IP
-# TODO: Implementação de reconhecimento DNS (como o comando host)
+# TODO: Implementação do envio de gráficos do dnsdumpster
 # TODO: Implementação da checagem de blacklist em IPs/Domains
 # TODO: (Possível) Implementação da checagem de artefatos via VT
 # TODO: Implementação da
@@ -17,9 +17,14 @@ import logging
 import whois
 import datetime
 import socket
+import cpf
+import os
+from dnsdumpster.DNSDumpsterAPI import DNSDumpsterAPI
+import json
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.common.keys import Keys
+
 
 #logging.basicConfig(filename='log_intelmultibot.log', filemode='a', format='%(asctime)s | %(name)s | %(levelname)s | %(message)s', level=logging.INFO)
 logging.basicConfig(format='%(asctime)s | %(name)s | %(levelname)s | %(message)s', level=logging.INFO)
@@ -111,7 +116,6 @@ def c_whois(update, context):
         context.bot.sendMessage(chat_id=update.effective_chat.id,
                                 text='Error: a timeout has occurred')
         return
-    # BUG: 8.8.8.8 (DNS) dá erro. Favor logar esse erro.
     except Exception as e:
         unknown_error('c_whois', e, update, context)
         return
@@ -208,6 +212,60 @@ def c_check_email(update, context):
                                 parse_mode=telegram.ParseMode.MARKDOWN)
 
 
+def c_check_cpf(update, context):
+    log_this(logging.info, 'check_cpf command triggered',
+             {
+                 update.effective_user: ['name', 'id', 'link'],
+                 update.message: ['text']
+             })
+    try:
+        cpf_sent = context.args[0]
+    except:
+        context.bot.sendMessage(chat_id=update.effective_chat.id,
+                                text='You must provide an cpf in format : 12345678901 or 123.456.789-01.')
+        return
+
+    info_cpf = cpf.checa_cpf(cpf_sent)
+    if info_cpf is None:
+        context.bot.sendMessage(chat_id=update.effective_chat.id,
+                                text='CPF is not valid. (not? please check the syntax and 0\'s)')
+    else:
+        msg = f'Valid CPF.\n{info_cpf[1][0]}º Região Fiscal\nPossíveis estados de emissão: {info_cpf[1][1]}'
+        context.bot.sendMessage(chat_id=update.effective_chat.id,
+                                text=msg)
+
+    return
+
+def c_subdomains(update, context):
+    log_this(logging.info, 'subdomains command triggered',
+             {
+                 update.effective_user: ['name', 'id', 'link'],
+                 update.message: ['text']
+             })
+    try:
+        domain = context.args[0]
+    except:
+        context.bot.sendMessage(chat_id=update.effective_chat.id,
+                                text='You must provide a domain.')
+        return
+
+    context.bot.sendMessage(chat_id=update.effective_chat.id, text='Wait a few seconds...')
+    results = DNSDumpsterAPI().search(domain)
+
+    if len(results) == 0:
+        context.bot.sendMessage(chat_id=update.effective_chat.id,
+                                text=f'Results not found for {domain}')
+        return
+
+    json_results = json.dumps(results['dns_records'], sort_keys=True, indent=4)
+
+    with open(f'results_{domain}_{update.effective_chat.id}.txt', 'w') as f:
+        f.write(json_results)
+
+    context.bot.send_document(chat_id=update.effective_chat.id, document=open(f'results_{domain}_{update.effective_chat.id}.txt', 'rb'), filename=f'results_{domain}.txt')
+    os.remove(f'results_{domain}_{update.effective_chat.id}.txt')
+
+
 def unknown_error(func_name, error, update, context):
     log_this(logging.error, 'Exception not handled occurred in {}: {}'.format(func_name, error), {
         update.effective_user: ['name', 'id', 'link'],
@@ -218,7 +276,7 @@ def unknown_error(func_name, error, update, context):
 
 def unknown(update, context):
     context.bot.send_message(chat_id=update.effective_chat.id, text="Sorry, I didn't understand that command.")
-    log_this(logging.warning, 'An unknown command has been passed to bot',{
+    log_this(logging.warning, 'An unknown command has been passed to bot', {
         update.effective_user: ['name', 'id', 'link'],
         update.message: ['text']
     })
@@ -230,12 +288,16 @@ start_handle = telegram.ext.CommandHandler('start', start)
 help_handle = telegram.ext.CommandHandler('help', help)
 whois_handle = telegram.ext.CommandHandler('whois', c_whois)
 check_email_handle = telegram.ext.CommandHandler('check_email', c_check_email)
+check_cpf_handle = telegram.ext.CommandHandler('check_cpf', c_check_cpf)
+check_subdomains = telegram.ext.CommandHandler('subdomains', c_subdomains)
 unknown_handler = telegram.ext.MessageHandler(telegram.ext.Filters.command, unknown)
 
 dispatcher.add_handler(start_handle)
 dispatcher.add_handler(help_handle)
 dispatcher.add_handler(whois_handle)
 dispatcher.add_handler(check_email_handle)
+dispatcher.add_handler(check_cpf_handle)
+dispatcher.add_handler(check_subdomains)
 dispatcher.add_handler(unknown_handler)
 
 updater.start_polling()
