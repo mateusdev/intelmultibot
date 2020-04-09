@@ -37,7 +37,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="/mnt/c/Users/Lenovo/Documents/GitHub/intelmultibot/virtual_env_linux"
+VIRTUAL_ENV="/home/user/intelmultibot/virtual_env_linux"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

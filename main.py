@@ -39,6 +39,7 @@ logging.info('Starting the process...')
 # -------------------------- FOR SELENIUM ----------------------------------- #
 options = Options()
 options.headless = True
+options.log.level = "trace"
 browser = webdriver.Firefox(options=options)
 # --------------------------------------------------------------------------- #
 

@@ -1,4 +1,4 @@
-#!/mnt/c/Users/Lenovo/Documents/GitHub/intelmultibot/virtual_env_linux/bin/python3
+#!/home/user/intelmultibot/virtual_env_linux/bin/python3
 # EASY-INSTALL-ENTRY-SCRIPT: 'future==0.18.2','console_scripts','futurize'
 __requires__ = 'future==0.18.2'
 import re

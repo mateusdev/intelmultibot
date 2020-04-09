@@ -1,5 +1,4 @@
-#!/mnt/c/Users/Lenovo/Documents/GitHub/intelmultibot/virtual_env_linux/bin/python3
-
+#!/home/user/intelmultibot/virtual_env_linux/bin/python3
 # -*- coding: utf-8 -*-
 import re
 import sys
