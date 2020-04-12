@@ -12,6 +12,7 @@
 # TODO: Implementação da função de baixar samples via bazaar/malshare (NECESSÁRIO API!!!)
 # TODO: inclusão da googlesearch para pesquisa em redes sociais, pastes e leaks
 # TODO: pesquisa de links da deepweb
+# TODO: cálculo dos dígitos verificadores cpf
 
 # TODO: Melhorar saída do GEO-IP
 # TODO: incluir cpf, subdomain e geoip nas opções de menu para o usuário
@@ -24,6 +25,7 @@ import socket
 import cpf
 import os
 import json
+import pydnsbl
 import ipaddress
 from dnsdumpster.DNSDumpsterAPI import DNSDumpsterAPI
 from geolite2 import geolite2
@@ -39,7 +41,6 @@ logging.info('Starting the process...')
 # -------------------------- FOR SELENIUM ----------------------------------- #
 options = Options()
 options.headless = True
-options.log.level = "trace"
 browser = webdriver.Firefox(options=options)
 # --------------------------------------------------------------------------- #
 
@@ -104,10 +105,11 @@ def c_whois(update, context):
              })
     try:
         domain = context.args[0]
-    except:
+    except IndexError:
         context.bot.sendMessage(chat_id=update.effective_chat.id,
                                 text='You must provide a domain.')
         return
+
 
     context.bot.sendMessage(chat_id=update.effective_chat.id, text='Wait a few seconds...')
 
@@ -122,9 +124,6 @@ def c_whois(update, context):
     except socket.timeout:
         context.bot.sendMessage(chat_id=update.effective_chat.id,
                                 text='Error: a timeout has occurred')
-        return
-    except Exception as e:
-        unknown_error('c_whois', e, update, context)
         return
 
     reply = ''
@@ -162,7 +161,7 @@ def c_check_email(update, context):
              })
     try:
         email = context.args[0]
-    except:
+    except IndexError:
         context.bot.sendMessage(chat_id=update.effective_chat.id,
                                 text='You must provide an e-mail address.')
         return
@@ -227,7 +226,7 @@ def c_check_cpf(update, context):
              })
     try:
         cpf_sent = context.args[0]
-    except:
+    except IndexError:
         context.bot.sendMessage(chat_id=update.effective_chat.id,
                                 text='You must provide an cpf in format : 12345678901 or 123.456.789-01.')
         return
@@ -251,7 +250,7 @@ def c_subdomains(update, context):
              })
     try:
         domain = context.args[0]
-    except:
+    except IndexError:
         context.bot.sendMessage(chat_id=update.effective_chat.id,
                                 text='You must provide a domain.')
         return
@@ -281,10 +280,10 @@ def c_geoip(update, context):
              })
     try:
         ip_sent = context.args[0]
-        ipaddress.ip_address(ip_sent)
-    except:
+        ipaddress.IPv4Address(ip_sent)
+    except ipaddress.AddressValueError:
         context.bot.sendMessage(chat_id=update.effective_chat.id,
-                                text='You must provide a IPv4 address.')
+                                text='You must provide an IP address.')
         return
 
     reader = geolite2.reader()
@@ -301,13 +300,50 @@ def c_geoip(update, context):
                             text=results_formatted)
 
 
-def unknown_error(func_name, error, update, context):
-    log_this(logging.error, 'Exception not handled occurred in {}: {}'.format(func_name, error), {
-        update.effective_user: ['name', 'id', 'link'],
-        update.message: ['text']
-    })
-    context.bot.sendMessage(chat_id=update.effective_chat.id, text='An unexpected error occurred.')
+def c_check_blacklist(update, context):
+    checker = None
+    log_this(logging.info, 'check_blacklist command triggered',
+             {
+                 update.effective_user: ['name', 'id', 'link'],
+                 update.message: ['text']
+             })
+    
+    try:
+        domain_or_ip = context.args[0]
+        ipaddress.IPv4Address(domain_or_ip)
+        checker = pydnsbl.DNSBLIpChecker()
+    except ipaddress.AddressValueError:
+        checker = pydnsbl.DNSBLDomainChecker()
+    except IndexError:
+        context.bot.sendMessage(chat_id=update.effective_chat.id,
+                                text='You must provide a domain/IP address.')
+        return
 
+    
+    try:
+        results = checker.check(domain_or_ip)
+    except ValueError:
+        context.bot.sendMessage(chat_id=update.effective_chat.id,
+                                text='You must provide a domain/IP address.')
+        return
+    
+    if not results.blacklisted:
+        context.bot.sendMessage(chat_id=update.effective_chat.id,
+                                text=f'{results.addr} is not blacklisted in any {len(results.providers)} providers.')
+        return
+    
+    text = f"{results.addr} is blacklisted in {len(results.detected_by)}/{len(results.providers)} providers.\n"
+    text += "\nDETECTED BY: REASON\n======================\n"
+    
+    for prov in results.detected_by.keys():
+        text += prov + " : " + ",".join(results.detected_by[prov]) + "\n"
+
+    context.bot.sendMessage(chat_id=update.effective_chat.id,
+                                text=text)
+
+    return
+    
+# ------------------------------------- ERRORS HANDLES --------------------------------------------------- #
 
 def unknown(update, context):
     context.bot.send_message(chat_id=update.effective_chat.id, text="Sorry, I didn't understand that command.")
@@ -316,6 +352,16 @@ def unknown(update, context):
         update.message: ['text']
     })
 
+def error_callback(update, context):
+    context.bot.sendMessage(chat_id=update.effective_chat.id, text='An unexpected error occurred.')
+    
+    try:
+        raise context.error
+    except Exception as e:
+        log_this(logging.error, 'Exception not handled => {}: {}'.format(type(e).__name__, e), {
+            update.effective_user: ['name', 'id', 'link'],
+            update.message: ['text']
+        })
 
 # --------------------------------- HANDLES E DISPATCHERS ---------------------------------------------- #
 
@@ -326,6 +372,7 @@ check_email_handle = telegram.ext.CommandHandler('check_email', c_check_email)
 check_cpf_handle = telegram.ext.CommandHandler('check_cpf', c_check_cpf)
 check_subdomains = telegram.ext.CommandHandler('subdomains', c_subdomains)
 geoip_handle = telegram.ext.CommandHandler('geoip', c_geoip)
+check_blacklist = telegram.ext.CommandHandler('check_bl', c_check_blacklist)
 unknown_handler = telegram.ext.MessageHandler(telegram.ext.Filters.command, unknown)
 
 dispatcher.add_handler(start_handle)
@@ -335,6 +382,8 @@ dispatcher.add_handler(check_email_handle)
 dispatcher.add_handler(check_cpf_handle)
 dispatcher.add_handler(check_subdomains)
 dispatcher.add_handler(geoip_handle)
+dispatcher.add_handler(check_blacklist)
+dispatcher.add_error_handler(error_callback)
 dispatcher.add_handler(unknown_handler)
 
 updater.start_polling()

@@ -1,22 +1,7 @@
 def formata_cpf(cpf):
-    if len(cpf) != 11 and len(cpf) != 14:
-        return None
-
-    cpf_formated = ''
-    try:
-        cpf_formated = int(cpf)
-    except ValueError:
-        cpf_formated = cpf
-        cpf_formated = cpf_formated.replace('.', '')
-        cpf_formated = cpf_formated.replace('-', '')
-        cpf_formated = int(cpf_formated)
-
-        try:
-            cpf_formated = int(cpf_formated)
-        except ValueError:
-            cpf_formated = None
-    finally:
-        return cpf_formated
+    cpf_formated = ''.join([i for i in cpf if i.isdigit()])
+    cpf_formated = int(cpf_formated)
+    return cpf_formated
 
 def checa_regiao_fiscal(cpf):
     if type(cpf) is str:
