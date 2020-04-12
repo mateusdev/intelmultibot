@@ -1,12 +1,12 @@
 def formata_cpf(cpf):
     cpf_formated = ''.join([i for i in cpf if i.isdigit()])
+    if cpf_formated == '':
+        return None
+    
     cpf_formated = int(cpf_formated)
     return cpf_formated
 
 def checa_regiao_fiscal(cpf):
-    if type(cpf) is str:
-        return None
-
     remainder1 = cpf % 1000
     remainder2 = remainder1 % 100
     digit = (remainder1 - remainder2) / 100
@@ -76,3 +76,32 @@ def checa_cpf(cpf_sent):
         return [cpf_sent, region]
 
     return None
+
+# Utilizar na rotina acima
+def digit_verifier(cpf):
+    cpf = formata_cpf(cpf)
+    if cpf is None:
+        return None
+    
+    v1, v2 = 0, 0
+
+    generator = [int(x) for x in str(cpf)[::-1]]
+    i = 0
+    for num in generator:
+        v1 = v1 + num * (9 - (i % 10))
+        v2 = v2 + num * (9 - ((i + 1) % 10))
+        i += 1
+
+    v1 = (v1 % 11) % 10
+    v2 = v2 + v1 * 9
+    v2 = (v2 % 11) % 10
+
+    # Checar veracidade
+    if v1 == 10:
+        v1 = 0
+    if v2 == 10:
+        v2 = 0
+
+    v1 = v1 * 10 + v2
+
+    return v1

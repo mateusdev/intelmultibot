@@ -13,6 +13,7 @@
 # TODO: inclusão da googlesearch para pesquisa em redes sociais, pastes e leaks
 # TODO: pesquisa de links da deepweb
 # TODO: cálculo dos dígitos verificadores cpf
+# TODO: implementação pesquisa webhosting
 
 # TODO: Melhorar saída do GEO-IP
 # TODO: incluir cpf, subdomain e geoip nas opções de menu para o usuário
@@ -27,6 +28,9 @@ import os
 import json
 import pydnsbl
 import ipaddress
+
+from ipdb import set_trace
+
 from dnsdumpster.DNSDumpsterAPI import DNSDumpsterAPI
 from geolite2 import geolite2
 from selenium import webdriver
@@ -52,17 +56,25 @@ bot = telegram.Bot(token=token)
 updater = telegram.ext.Updater(token=token, use_context=True)
 dispatcher = updater.dispatcher
 
+comands_and_desc = {
+    'help': 'show this help',
+    'whois': 'gather information about a domain',
+    'check_email': 'checks the validity of an e-mail address',   
+}
+
 help_msg = """
 Hello, I am a bot that travels around the cyberworld and give you some Intelligence about something in the Internet!
 
 ====================================
 List of commands:
 ====================================
-/help - show this help
-/whois <domain> - gather information about a domain
-/check_email <email> - checks the validity of an e-mail address
-====================================
 """
+
+for k in comands_and_desc.keys():
+    help_msg += "/{} - {}\n".format(k, comands_and_desc[k])
+
+help_msg += "===================================="
+
 
 # BUG: não consegue manipular dois objetos que tenham uma mesma propriedade em comum
 def log_this(log_func, msg, attrs={}, callback=None):
@@ -294,7 +306,35 @@ def c_geoip(update, context):
                                 text='No GEO-IP information found in my database :(')
         return
 
-    results_formatted = json.dumps(results, indent=4)
+    results_formatted = ''
+
+    #results_formatted = json.dumps(results, indent=4)
+    if results.get('continent'):
+        results_formatted += 'Continent: '
+        results_formatted += str(results['continent']['code']) + ' - '
+        results_formatted += str(results['continent']['names']['en']) + '\n'
+    if results.get('country'):
+        results_formatted += 'Country: '
+        results_formatted += str(results['country']['iso_code']) + ' - '
+        results_formatted += str(results['country']['names']['en']) + '\n'
+    if results.get('subdivisions'):
+        results_formatted += 'State/Province: '
+        results_formatted += str(results['subdivisions'][0]['iso_code']) + ' - '
+        results_formatted += str(results['subdivisions'][0]['names']['en']) + '\n'
+    if results.get('city'):
+        results_formatted += 'City: '
+        results_formatted += str(results['city']['names']['en']) + '\n'
+    if results.get('postal'):
+        results_formatted += 'Postal: '
+        results_formatted += str(results['postal']['code']) + '\n'
+
+    if results.get('location', None):
+        if results['location'].get('time_zone'):
+            results_formatted += "Timezone: "
+            results_formatted += results['location']['time_zone'] + '\n'
+        results_formatted += "\n==================================\n"
+        results_formatted += f"https://maps.google.com/?q={results['location']['latitude']},{results['location']['longitude']}"
+
 
     context.bot.sendMessage(chat_id=update.effective_chat.id,
                             text=results_formatted)
@@ -319,6 +359,7 @@ def c_check_blacklist(update, context):
                                 text='You must provide a domain/IP address.')
         return
 
+    context.bot.sendMessage(chat_id=update.effective_chat.id, text='Wait a few seconds...')
     
     try:
         results = checker.check(domain_or_ip)
@@ -342,7 +383,36 @@ def c_check_blacklist(update, context):
                                 text=text)
 
     return
-    
+
+def c_get_digits(update, context):
+    log_this(logging.info, 'get_digits command triggered',
+             {
+                 update.effective_user: ['name', 'id', 'link'],
+                 update.message: ['text']
+             })
+    try:
+        cpf_sent = context.args[0]
+    except ipaddress.AddressValueError:
+        context.bot.sendMessage(chat_id=update.effective_chat.id,
+                                text='You must provide a cpf without the verification digits.')
+        return
+
+    digits = cpf.digit_verifier(cpf_sent)
+    if digits is None:
+        context.bot.sendMessage(chat_id=update.effective_chat.id,
+                                text='You must provide a cpf without the verification digits.')
+        return
+        
+    cpf_sent = cpf.formata_cpf(cpf_sent)
+    cpf_sent = cpf_sent * 100 + digits
+
+    text = 'The verification numbers are {:02}'.format(digits)
+    text += '\nCPF: {:011}'.format(cpf_sent)
+
+    context.bot.sendMessage(chat_id=update.effective_chat.id,
+                            text=text)
+
+
 # ------------------------------------- ERRORS HANDLES --------------------------------------------------- #
 
 def unknown(update, context):
@@ -373,6 +443,7 @@ check_cpf_handle = telegram.ext.CommandHandler('check_cpf', c_check_cpf)
 check_subdomains = telegram.ext.CommandHandler('subdomains', c_subdomains)
 geoip_handle = telegram.ext.CommandHandler('geoip', c_geoip)
 check_blacklist = telegram.ext.CommandHandler('check_bl', c_check_blacklist)
+get_digits = telegram.ext.CommandHandler('get_digits', c_get_digits)
 unknown_handler = telegram.ext.MessageHandler(telegram.ext.Filters.command, unknown)
 
 dispatcher.add_handler(start_handle)
@@ -383,6 +454,7 @@ dispatcher.add_handler(check_cpf_handle)
 dispatcher.add_handler(check_subdomains)
 dispatcher.add_handler(geoip_handle)
 dispatcher.add_handler(check_blacklist)
+dispatcher.add_handler(get_digits)
 dispatcher.add_error_handler(error_callback)
 dispatcher.add_handler(unknown_handler)
 
