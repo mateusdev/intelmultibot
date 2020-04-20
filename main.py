@@ -2,21 +2,21 @@
 # TODO: especificar cada import explicitamente
 # TODO: analisar e modular rotinas repetidas.
 # TODO: estatístisticas de uso de cada componente.
-# TODO: feedback para caso de erros.
 # TODO: melhoria e otimização de funções
+# TODO: implementação webhook
+# TODO (darkcrow): VPN na VM (está em bridge :()
+# TODO: implementação de sistema de logs mais efetivo, enviando por e-mail quando houver defeitos
+# TODO: mudança para um paradigma orientado a objetos (?)
 
-# TODO: Implementação do parser de arquivos .eml (e-mail), integrando outras funções de inteligência, como blacklist
+# TODO: Implementação do parser de arquivos .eml (e-mail), gerando inteligência a partir dos dados
 # TODO: Implementação do envio de gráficos do dnsdumpster
-# TODO: Implementação da checagem de blacklist em IPs/Domains
 # TODO: (Possível) Implementação da checagem de artefatos via VT
 # TODO: Implementação da função de baixar samples via bazaar/malshare (NECESSÁRIO API!!!)
 # TODO: inclusão da googlesearch para pesquisa em redes sociais, pastes e leaks
 # TODO: pesquisa de links da deepweb
-# TODO: cálculo dos dígitos verificadores cpf
 # TODO: implementação pesquisa webhosting
 
-# TODO: Melhorar saída do GEO-IP
-# TODO: incluir cpf, subdomain e geoip nas opções de menu para o usuário
+# TODO: incluir cpf, subdomain, geoip, blacklist, getdigits nas opções de menu para o usuário
 
 import telegram.ext
 import logging
@@ -28,6 +28,9 @@ import os
 import json
 import pydnsbl
 import ipaddress
+from io import BytesIO
+from io import StringIO
+from base64 import b64decode
 
 from ipdb import set_trace
 
@@ -38,8 +41,8 @@ from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.common.keys import Keys
 
 
-#logging.basicConfig(filename='log_intelmultibot.log', filemode='a', format='%(asctime)s | %(name)s | %(levelname)s | %(message)s', level=logging.INFO)
-logging.basicConfig(format='%(asctime)s | %(name)s | %(levelname)s | %(message)s', level=logging.INFO)
+logging.basicConfig(filename='log_intelmultibot.log', filemode='a', format='%(asctime)s | %(name)s | %(levelname)s | %(message)s', level=logging.INFO)
+#logging.basicConfig(format='%(asctime)s | %(name)s | %(levelname)s | %(message)s', level=logging.INFO)
 logging.info('Starting the process...')
 
 # -------------------------- FOR SELENIUM ----------------------------------- #
@@ -255,6 +258,7 @@ def c_check_cpf(update, context):
     return
 
 def c_subdomains(update, context):
+    # BUG: e se o usuário digitar um IP?? IndexError lá na frente
     log_this(logging.info, 'subdomains command triggered',
              {
                  update.effective_user: ['name', 'id', 'link'],
@@ -280,7 +284,14 @@ def c_subdomains(update, context):
     with open(f'results_{domain}_{update.effective_chat.id}.txt', 'w') as f:
         f.write(json_results)
 
+    bio = BytesIO(b64decode(results['image_data'].decode()))
+    bio.name = 'graph.png'
+    
+    bio.seek(0)
+
     context.bot.send_document(chat_id=update.effective_chat.id, document=open(f'results_{domain}_{update.effective_chat.id}.txt', 'rb'), filename=f'results_{domain}.txt')
+    context.bot.send_document(chat_id=update.effective_chat.id, document=bio)
+    context.bot.sendMessage(chat_id=update.effective_chat.id, text='Sorry if the image is not readable, we\'re working on it! Some images only display outside Telegram.')
     os.remove(f'results_{domain}_{update.effective_chat.id}.txt')
 
 
@@ -293,7 +304,7 @@ def c_geoip(update, context):
     try:
         ip_sent = context.args[0]
         ipaddress.IPv4Address(ip_sent)
-    except ipaddress.AddressValueError:
+    except (ipaddress.AddressValueError, IndexError):
         context.bot.sendMessage(chat_id=update.effective_chat.id,
                                 text='You must provide an IP address.')
         return
@@ -392,7 +403,7 @@ def c_get_digits(update, context):
              })
     try:
         cpf_sent = context.args[0]
-    except ipaddress.AddressValueError:
+    except IndexError:
         context.bot.sendMessage(chat_id=update.effective_chat.id,
                                 text='You must provide a cpf without the verification digits.')
         return
