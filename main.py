@@ -12,13 +12,11 @@
 # TODO: Implementação do parser de arquivos .eml (e-mail), gerando inteligência a partir dos dados
 # TODO: Implementação do envio de gráficos do dnsdumpster
 # TODO: (Possível) Implementação da checagem de artefatos via VT
-# TODO: Implementação da função de baixar samples via bazaar/malshare (NECESSÁRIO API!!!)
+# TODO: Implementação da função de baixar samples via bazaar/malshare
 # TODO: inclusão da googlesearch para pesquisa em redes sociais, pastes e leaks
 # TODO: inclusão da API haveibeenpwned
 # TODO: pesquisa de links da deepweb
 # TODO: implementação pesquisa webhosting
-
-# TODO: incluir cpf, subdomain, geoip, blacklist, getdigits nas opções de menu para o usuário
 
 import telegram.ext
 import logging
