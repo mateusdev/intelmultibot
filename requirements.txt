@@ -15,6 +15,7 @@ maxminddb==1.5.2
 maxminddb-geolite2==2018.703
 pycares==3.1.1
 pycparser==2.20
+pydnsbl==1.0.2
 python-telegram-bot==12.4.2
 python-whois==0.7.2
 requests==2.23.0

@@ -1,18 +1,20 @@
+# BUG: whois não tá funcionado corretamente
+
 # TODO: especificar cada except.
 # TODO: especificar cada import explicitamente
 # TODO: analisar e modular rotinas repetidas.
 # TODO: estatístisticas de uso de cada componente.
 # TODO: melhoria e otimização de funções
 # TODO: implementação webhook
-# TODO (darkcrow): VPN na VM (está em bridge :()
 # TODO: implementação de sistema de logs mais efetivo, enviando por e-mail quando houver defeitos
-# TODO: mudança para um paradigma orientado a objetos (?)
+# TODO: mudança total para um paradigma orientado a objetos
 
 # TODO: Implementação do parser de arquivos .eml (e-mail), gerando inteligência a partir dos dados
 # TODO: Implementação do envio de gráficos do dnsdumpster
 # TODO: (Possível) Implementação da checagem de artefatos via VT
 # TODO: Implementação da função de baixar samples via bazaar/malshare (NECESSÁRIO API!!!)
 # TODO: inclusão da googlesearch para pesquisa em redes sociais, pastes e leaks
+# TODO: inclusão da API haveibeenpwned
 # TODO: pesquisa de links da deepweb
 # TODO: implementação pesquisa webhosting
 
@@ -32,8 +34,6 @@ from io import BytesIO
 from io import StringIO
 from base64 import b64decode
 
-from ipdb import set_trace
-
 from dnsdumpster.DNSDumpsterAPI import DNSDumpsterAPI
 from geolite2 import geolite2
 from selenium import webdriver
@@ -48,12 +48,13 @@ logging.info('Starting the process...')
 # -------------------------- FOR SELENIUM ----------------------------------- #
 options = Options()
 options.headless = True
-browser = webdriver.Firefox(options=options)
+browser = webdriver.Firefox(options=options, executable_path='./geckodriver')
 # --------------------------------------------------------------------------- #
 
 logging.info('Process started!')
 
-token = '1104333045:AAFYKy78IaEMmTr3jMhTOfsFIde-U_BRJ_E'
+# Please put your Telegram Bot API here
+token = ''
 
 bot = telegram.Bot(token=token)
 updater = telegram.ext.Updater(token=token, use_context=True)
@@ -62,11 +63,17 @@ dispatcher = updater.dispatcher
 comands_and_desc = {
     'help': 'show this help',
     'whois': 'gather information about a domain',
-    'check_email': 'checks the validity of an e-mail address',   
+    'check_email': 'checks the validity of an e-mail address',
+    'check_cpf': 'verifies if a CPF is in the valid format',
+    'subdomains': 'does a passive, history DNS recon of a given domain',
+    'geoip': 'determines the geoip of an IP',
+    'check_bl': 'checks whether an IP/domain is in a blacklist or not',
+    'get_digits': 'determine the verification digits of a given incomplete cpf',
 }
 
 help_msg = """
 Hello, I am a bot that travels around the cyberworld and give you some Intelligence about something in the Internet!
+I was originally made by Mateus Gualberto aka darkcrow.
 
 ====================================
 List of commands:

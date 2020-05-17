@@ -1,2 +1,0 @@
-# intelmultibot
-Intelligence Gathering Bot
